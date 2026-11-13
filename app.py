@@ -13,10 +13,11 @@ def load_classifier():
     X_train = [
         "I feel great today", "Everything is fine", "Hello", "What a lovely day",
         "I am ok now", "No I am ok", "I am so happy", "I ate a pineapple bun",
-        "I love A-1 Bakery", "I am craving food", "That makes me feel better",
+        "I love A-1 Bakery", "I am craving food", "That makes me feel better", 
         "I am so lonely", "I feel sad", "Nobody visits me anymore", "I miss my family",
         "I feel down", "I am crying", "I am upset",
-        "My chest hurts", "I fell down and can't get up", "Call for help", "I am dizzy and in pain"
+        "My chest hurts", "I fell down and can't get up", "Call for help", "I am dizzy and in pain", 
+        "I am bleeding", "I feel dizzy", "i just fall down", 
     ]
     
     y_train = [
@@ -25,7 +26,8 @@ def load_classifier():
         "Normal", "Normal", "Normal",
         "Low Mood", "Low Mood", "Low Mood", "Low Mood",
         "Low Mood", "Low Mood", "Low Mood",
-        "Distress", "Distress", "Distress", "Distress"
+        "Distress", "Distress", "Distress", "Distress", 
+        "Distress", "Distress", "Distress",
     ]
     # Creates the supervised machine learning pipeline
     clf = Pipeline([
