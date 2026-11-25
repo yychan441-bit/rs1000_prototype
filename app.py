@@ -145,3 +145,73 @@ st.sidebar.caption(
     "For an emergency, contact local emergency services "
     "or someone nearby directly."
 )
+# Simulated readings — not connected to a real device.
+st.sidebar.divider()
+st.sidebar.header("Remote Monitoring — Demo")
+
+st.sidebar.caption(
+    "SIMULATED DATA: Adjust these values to demonstrate "
+    "the dashboard. No real person is being monitored."
+)
+
+demo_heart_rate = st.sidebar.slider(
+    "Heart rate (bpm)",
+    min_value=40,
+    max_value=160,
+    value=72,
+    key="demo_heart_rate",
+)
+
+demo_oxygen = st.sidebar.slider(
+    "Oxygen saturation (%)",
+    min_value=80,
+    max_value=100,
+    value=98,
+    key="demo_oxygen",
+)
+
+demo_sleep = st.sidebar.slider(
+    "Last night's sleep (hours)",
+    min_value=0.0,
+    max_value=12.0,
+    value=7.0,
+    step=0.5,
+    key="demo_sleep",
+)
+
+demo_steps = st.sidebar.number_input(
+    "Steps today",
+    min_value=0,
+    max_value=50000,
+    value=2500,
+    step=100,
+    key="demo_steps",
+)
+
+st.sidebar.subheader("Simulated Readings")
+
+st.sidebar.metric(
+    "Heart rate",
+    f"{demo_heart_rate} bpm",
+)
+
+st.sidebar.metric(
+    "Oxygen saturation",
+    f"{demo_oxygen}%",
+)
+
+st.sidebar.metric(
+    "Sleep",
+    f"{demo_sleep:.1f} hours",
+)
+
+st.sidebar.metric(
+    "Steps",
+    f"{demo_steps:,}",
+)
+
+st.sidebar.info(
+    "Demo only: these values are entered manually. "
+    "No medical assessment or automatic caregiver "
+    "notification is performed."
+)
