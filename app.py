@@ -45,7 +45,87 @@ PERSONA = {
     "interests": ["gardening", "cooking", "music"],
     "topics": ["food", "everyday memories"]
 }
+# --- RESPONSE FUNCTIONS ---
+def choose_reply(options):
+    recent_replies = [
+        message["content"]
+        for message in st.session_state.get("messages", [])
+        if message["role"] == "assistant"
+    ][-6:]
 
+    available = [
+        reply for reply in options
+        if reply not in recent_replies
+    ]
+
+    return random.choice(available or options)
+
+
+def generate_normal_reply(prompt):
+    text = prompt.lower()
+
+    if any(word in text for word in [
+        "repeating", "repeat", "same sentence"
+    ]):
+        return choose_reply([
+            "You're right—I repeated myself. Sorry about that. "
+            "What would you like to talk about instead?",
+            "Sorry, that reply wasn't helpful. "
+            "Let's stay with what you were telling me.",
+        ])
+
+    if "yum cha" in text or "dim sum" in text:
+        return choose_reply([
+            "What was your favourite dim sum dish?",
+            "Who did you usually go to yum cha with?",
+            "Did you have a favourite restaurant for yum cha?",
+            "What did you enjoy most about going for yum cha?",
+        ])
+
+    if "anita mui" in text:
+        return choose_reply([
+            "Which Anita Mui song do you enjoy most?",
+            "Do her songs remind you of a particular time in your life?",
+            "When did you first start listening to Anita Mui?",
+            "What do you like most about her music?",
+        ])
+
+    if any(word in text for word in [
+        "music", "song", "sing", "cantonese"
+    ]):
+        return choose_reply([
+            "Who is your favourite singer?",
+            "Is there a particular song that brings back memories?",
+            "Do you enjoy singing along, or do you prefer listening?",
+            "What music did you listen to when you were younger?",
+        ])
+
+    if any(word in text for word in [
+        "food", "eat", "ate", "bun", "bakery", "cook"
+    ]):
+        return choose_reply([
+            "What do you enjoy most about that food?",
+            "Is there a dish you especially enjoy cooking?",
+            "Does that food remind you of anyone?",
+            "What was a favourite meal in your family?",
+        ])
+
+    if any(word in text for word in [
+        "garden", "plant", "flower"
+    ]):
+        return choose_reply([
+            "What do you like growing?",
+            "Do you have a favourite flower?",
+            "How did you first become interested in gardening?",
+            "What do you enjoy most about looking after plants?",
+        ])
+
+    return choose_reply([
+        "Could you tell me a little more about that?",
+        "What would you like to share about it?",
+        "I'm listening. What happened next?",
+        "Would you like to keep talking about that, or choose another topic?",
+    ])
 # --- 3. UI DASHBOARD & WEARABLE DATA (INNOVATION LAYER) ---
 st.set_page_config(page_title="Elderly Companion AI", layout="wide")
 st.title("Elderly Companion AI — Prototype")
@@ -103,9 +183,11 @@ if prompt := st.chat_input("Type your message here..."):
             reply = "It sounds like you're having a tough day. I am always here to chat. Would you like to tell me about a place you remember fondly to take your mind off things?"
             alert_placeholder.warning("⚠️ NOTE: Low mood trend detected. Monitoring closely.")
         else:
-            reply = f"That is wonderful! Speaking of {random.choice(PERSONA['interests'])}, is there a song or kind of music you particularly enjoy?"
-            alert_placeholder.success("✅ System Status: Normal. User state is stable.")
-        
+            reply = generate_normal_reply(prompt)
+            alert_placeholder.success(
+                "✅ Demo classifier result: Normal."
+            )
+
         # Simulate processing latency (looks more natural)
         time.sleep(1)
         response_placeholder.markdown(reply)
