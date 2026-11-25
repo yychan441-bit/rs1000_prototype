@@ -131,7 +131,7 @@ if prompt := st.chat_input("Type your message here..."):
         for message in st.session_state.messages
     ]
 
-    with st.chat_message("assistant"):
+        with st.chat_message("assistant"):
         try:
             with st.spinner("Preparing a reply..."):
                 response = client.models.generate_content(
@@ -158,8 +158,7 @@ if prompt := st.chat_input("Type your message here..."):
                     "Please try rephrasing your message."
                 )
 
-                except Exception as error:
-            # Hide the API key if it appears in the error.
+        except Exception as error:
             error_text = str(error).replace(
                 st.secrets["GEMINI_API_KEY"],
                 "[API KEY HIDDEN]",
