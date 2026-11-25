@@ -120,3 +120,28 @@ if prompt:
             )
             st.error("The AI service returned this error:")
             st.code(error_text)
+# Demo caregiver alert — no external notification is sent.
+st.sidebar.divider()
+st.sidebar.header("Caregiver Alert — Demo")
+
+if "caregiver_help_requested" not in st.session_state:
+    st.session_state.caregiver_help_requested = False
+
+if st.sidebar.button("Request caregiver help"):
+    st.session_state.caregiver_help_requested = True
+
+if st.session_state.caregiver_help_requested:
+    st.sidebar.warning(
+        "DEMO ALERT: Caregiver help requested. "
+        "This alert is displayed in the app only. "
+        "No caregiver has been contacted."
+    )
+
+    if st.sidebar.button("Clear demo alert"):
+        st.session_state.caregiver_help_requested = False
+        st.rerun()
+
+st.sidebar.caption(
+    "For an emergency, contact local emergency services "
+    "or someone nearby directly."
+)
