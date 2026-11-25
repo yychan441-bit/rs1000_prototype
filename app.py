@@ -158,9 +158,12 @@ if prompt := st.chat_input("Type your message here..."):
                     "Please try rephrasing your message."
                 )
 
-        except Exception:
-            st.error(
-                "Could not get a response. "
-                "Check your API key, model availability, "
-                "and free-tier usage limits."
+                except Exception as error:
+            # Hide the API key if it appears in the error.
+            error_text = str(error).replace(
+                st.secrets["GEMINI_API_KEY"],
+                "[API KEY HIDDEN]",
             )
+
+            st.error("The AI service returned this error:")
+            st.code(error_text)
